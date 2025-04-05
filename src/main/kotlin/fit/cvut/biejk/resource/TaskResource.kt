@@ -2,7 +2,9 @@ package fit.cvut.biejk.resource
 
 import fit.cvut.biejk.dto.TaskDto
 import fit.cvut.biejk.mapper.toDto
+import fit.cvut.biejk.persistance.entity.Task
 import fit.cvut.biejk.service.TaskService
+import fit.cvut.biejk.filtering.Filter
 import io.quarkus.panache.common.Sort
 import jakarta.annotation.security.RolesAllowed
 import jakarta.ws.rs.*
@@ -13,7 +15,9 @@ import jakarta.ws.rs.core.Response
 class TaskResource(
     val taskService: TaskService,
 ) {
-    private val ALLOWED_SORT_FIELDS: List<String> = listOf("dueDate", "deadlineDate")
+    companion object {
+        private val ALLOWED_SORT_FIELDS: List<String> = listOf("dueDate", "deadlineDate")
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -21,7 +25,7 @@ class TaskResource(
     fun getCurrentUserTasks(
         @QueryParam(value="sortBy") sortBy: String?,
         @QueryParam(value="sortDir") sortDir: String?,
-        @QueryParam(value="filter") filter: String?
+        @QueryParam(value="filter") filterBy: String?
     ): List<TaskDto>  {
         if (!sortBy.isNullOrEmpty() && !ALLOWED_SORT_FIELDS.contains(sortBy))
             throw IllegalArgumentException("Invalid sort field: $sortBy")
@@ -29,13 +33,7 @@ class TaskResource(
         if (!sortDir.isNullOrEmpty() && !listOf("asc", "ASC", "desc", "DESC").contains(sortDir))
             throw IllegalArgumentException("Invalid sort direction: $sortDir")
 
-        val match = filter?.let {
-            Regex("^(?<attribute>deadlineDate|dueDate)(?<operator>[=<>])(?<value>\\w+)\$").matchEntire(it)
-        }
-
-        if (!filter.isNullOrEmpty() && match == null)
-            throw IllegalArgumentException("Invalid filter format: $filter")
-
+        val filter = filterBy?.let { Filter.from(Task::class, it) }
 
         val sortDirection = if (sortDir?.lowercase() == "desc") {
             Sort.Direction.Descending
@@ -43,13 +41,9 @@ class TaskResource(
             Sort.Direction.Ascending
         }
 
-        val sort = if (!sortBy.isNullOrEmpty()) {
-            Sort.by(sortBy, sortDirection)
-        } else {
-            Sort.by("id", sortDirection)
-        }
+        val sort: Sort? = sortBy?.let { Sort.by(sortBy, sortDirection) }
 
-        return taskService.getCurrentUserTasks(sort).map { it.toDto() }
+        return taskService.getCurrentUserTasks(sort, filter).map { it.toDto() }
     }
 
     @POST

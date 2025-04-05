@@ -6,10 +6,10 @@ import fit.cvut.biejk.mapper.toEntity
 import fit.cvut.biejk.mapper.update
 import fit.cvut.biejk.persistance.entity.Task
 import fit.cvut.biejk.persistance.repository.TaskRepository
+import fit.cvut.biejk.filtering.Filter
 import io.quarkus.panache.common.Sort
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
-import java.time.LocalDate
 
 @ApplicationScoped
 class TaskService (
@@ -18,12 +18,12 @@ class TaskService (
 ) {
 
     @Transactional
-    fun getCurrentUserTasks(sort: Sort): List<Task> {
-        return taskRepository.list("user = :user AND deadlineDate = :deadlineDate", sort,
+    fun getCurrentUserTasks(sort: Sort? = null, filter: Filter<Task>? = null): List<Task> {
+        return taskRepository.list(
+            "user = :user" + (if (filter != null) " AND $filter" else ""), sort,
             mapOf(
                 "user" to userService.getUser(),
-                "deadlineDate" to LocalDate.of(2025, 4, 12)
-            )
+            ) + (filter?.parameters ?: emptyMap())
         )
     }
 
