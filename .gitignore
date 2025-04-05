@@ -42,3 +42,6 @@ nb-configuration.xml
 
 # JWT keys (temporary)
 src/main/resources/META-INF/resources/*.pem
+
+# Kotlin compiler and build tool caches
+.kotlin/
