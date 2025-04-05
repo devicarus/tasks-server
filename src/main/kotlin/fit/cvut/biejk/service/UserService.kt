@@ -15,8 +15,10 @@ class UserService(
     val securityIdentity: SecurityIdentity,
     val userRepository: UserRepository
 ) {
-    private val ACCESS_TOKEN_EXPIRY = 900L // 15 min
-    private val REFRESH_TOKEN_EXPIRY = 7 * 24 * 3600L // 7 days
+    companion object {
+        private const val ACCESS_TOKEN_EXPIRY = 900L // 15 min
+        private const val REFRESH_TOKEN_EXPIRY = 7 * 24 * 3600L // 7 days
+    }
 
     @Transactional
     fun createUser(username: String, password: String) {
