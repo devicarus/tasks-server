@@ -1,6 +1,6 @@
 package fit.cvut.biejk.resource
 
-import fit.cvut.biejk.dto.ProjectDto
+import fit.cvut.biejk.dto.ProjectBriefDto
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
@@ -16,7 +16,7 @@ class ProjectResource(
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createProject(projectDto: ProjectDto): Response {
+    fun createProject(projectDto: ProjectBriefDto): Response {
         projectService.createProject( projectDto )
         return Response.ok().build()
     }
@@ -26,6 +26,15 @@ class ProjectResource(
     fun getProjects(): Response {
         return Response.status(Response.Status.OK)
             .entity(projectService.getProjects())
+            .build()
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    fun getProject(@PathParam("id") id: Long): Response {
+        return Response.status(Response.Status.OK)
+            .entity(projectService.getProject(id))
             .build()
     }
 
