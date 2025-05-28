@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "projects")
 class Project(
-    var name: String = ""
+    var name: String? = null
 ) : PanacheEntity() {
 
     @ManyToOne
