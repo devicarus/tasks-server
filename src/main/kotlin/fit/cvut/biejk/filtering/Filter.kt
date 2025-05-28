@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 data class Filter<T : Any>(
     private val filters: List<AttributeFilter<T>>,
 ) {
-    val parameters: Map<String, Any> = filters.associate { it.parameter }
+    val parameters: Map<String, Any> = filters.mapNotNull { it.parameter }.toMap()
 
     override fun toString(): String = filters.joinToString(separator = " AND ") { it.toString() }
 

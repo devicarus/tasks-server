@@ -40,11 +40,13 @@ data class AttributeFilter<T : Any>(
 
     override fun toString(): String = when {
         operator == "~" -> "$columnName LIKE '%' || :$columnName || '%'"
+        operator == "=" && value == "NULL" -> "$columnName IS NULL"
         else -> "$columnName $operator :$columnName"
     }
 
     val parameter
-        get(): Pair<String, Any> {
+        get(): Pair<String, Any>? {
+            if (operator == "=" && value == "NULL") return null
             val value = when (property?.returnType?.classifier) {
                 Boolean::class -> value.toBoolean()
                 LocalDate::class -> LocalDate.parse(value)
