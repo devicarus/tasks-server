@@ -33,8 +33,8 @@ class ProjectService(
     @Transactional
     fun getProject(id: Long): ProjectDto {
         val project = projectRepository.findById(id)
-        if (project.user != userService.getUser())
-            throw IllegalArgumentException("Project with id $id does not exist")
+        if (project == null || project.user != userService.getUser())
+            throw IllegalArgumentException("Project not found")
         return project.toDto()
     }
 

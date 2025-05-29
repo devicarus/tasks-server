@@ -39,7 +39,7 @@ class TaskService (
     fun updateTask(id: Long, taskDto: TaskDto) {
         val task = taskRepository.findById(id);
         if (task == null || task.user != userService.getUser())
-            throw IllegalArgumentException();
+            throw IllegalArgumentException("Task not found");
         task.update(taskDto);
         taskRepository.persist(task);
     }
@@ -48,7 +48,7 @@ class TaskService (
     fun deleteTask(id: Long) {
         val task = taskRepository.findById(id);
         if (task == null || task.user != userService.getUser())
-            throw IllegalArgumentException();
+            throw IllegalArgumentException("Task not found");
         taskRepository.delete(task);
     }
 
