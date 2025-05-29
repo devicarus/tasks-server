@@ -12,6 +12,6 @@ class Project(
     @ManyToOne
     lateinit var user: User
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = [CascadeType.REMOVE])
     var tasks: MutableList<Task> = mutableListOf()
 }
