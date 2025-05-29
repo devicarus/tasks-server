@@ -12,7 +12,7 @@ data class Filter<T : Any>(
     companion object {
         private val OPERATORS = listOf("<=", ">=", "=", "<", ">", "~")
 
-        private val PATTERN: Regex = Regex("(?<=^|;)(?<attribute>\\w+)(?<operator>${OPERATORS.joinToString(separator = "|")})(?<value>'[^']*'|\\w+)(?=\$|;)")
+        private val PATTERN: Regex = Regex("(?<=^|;)(?<attribute>\\w+)(?<operator>${OPERATORS.joinToString(separator = "|")})(?<value>'[^']*'|\\w+)(?=$|;)")
 
         fun <T : Any> from(clazz: KClass<T>, filter: String): Filter<T> {
             val matches = PATTERN.findAll(filter)
