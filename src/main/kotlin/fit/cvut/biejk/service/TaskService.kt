@@ -7,6 +7,7 @@ import fit.cvut.biejk.mapper.update
 import fit.cvut.biejk.persistance.entity.Task
 import fit.cvut.biejk.persistance.repository.TaskRepository
 import fit.cvut.biejk.filtering.Filter
+import fit.cvut.biejk.persistance.repository.ProjectRepository
 import io.quarkus.panache.common.Sort
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional
 @ApplicationScoped
 class TaskService (
     val taskRepository: TaskRepository,
+    val projectRepository: ProjectRepository,
     val userService: UserService
 ) {
 
@@ -31,6 +33,21 @@ class TaskService (
     fun createTask(taskDto: TaskDto): TaskDto {
         val task = taskDto.toEntity()
         task.user = userService.getUser()
+        taskRepository.persist(task)
+        return task.toDto()
+    }
+
+    @Transactional
+    fun createProjectTask(projectId: Long, taskDto: TaskDto): TaskDto {
+        val project = projectRepository.findById(projectId)
+        val user = userService.getUser()
+
+        if (project == null || project.user != user)
+            throw IllegalArgumentException("Project not found")
+
+        val task = taskDto.toEntity()
+        task.user = user
+        task.project = project
         taskRepository.persist(task)
         return task.toDto()
     }

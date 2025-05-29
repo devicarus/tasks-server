@@ -15,13 +15,16 @@ fun Project.toBriefDto(): ProjectBriefDto = ProjectBriefDto(
     name = this.name
 )
 
+fun Project.update(dto: ProjectBriefDto) {
+    this.name = dto.name;
+}
+
 fun Project.patchWith(dto: ProjectBriefDto) {
-    dto.id?.let { this.id = it }
-    this.name = dto.name
+    dto.name?.let { this.name = it }
 }
 
 fun ProjectBriefDto.toEntity(): Project {
     val entity = Project()
-    entity.patchWith(this)
+    entity.update(this)
     return entity
 }
