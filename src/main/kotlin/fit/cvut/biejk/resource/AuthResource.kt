@@ -5,6 +5,7 @@ import fit.cvut.biejk.dto.TokenResponse
 import fit.cvut.biejk.exception.AuthException
 import fit.cvut.biejk.persistance.repository.UserRepository
 import fit.cvut.biejk.service.UserService
+import fit.cvut.biejk.util.CookieUtils
 import fit.cvut.biejk.util.JwtUtils
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
@@ -25,14 +26,7 @@ class AuthResource(
         val user = userService.verifyUser(credentials.username, credentials.password)
         val tokens = userService.getToken(user)
 
-        val refreshCookie = NewCookie.Builder("refresh_token")
-            .value(tokens.first)
-            .path("/api/auth/refresh")
-            .maxAge(7 * 24 * 3600)
-            //.httpOnly(true)
-            //.secure(true) // TODO: CHANGE IN PRODUCTION !!!!!!!
-            //.sameSite(NewCookie.SameSite.STRICT)
-            .build()
+        val refreshCookie = CookieUtils.createRefreshTokenCookie(tokens.first, 7 * 24 * 3600)
 
         return Response.ok(TokenResponse(tokens.second)).cookie(refreshCookie).build()
     }
