@@ -31,6 +31,13 @@ class AuthResource(
         return Response.ok(TokenResponse(tokens.second)).cookie(refreshCookie).build()
     }
 
+    @DELETE
+    @Path("/token")
+    fun deleteToken(): Response {
+        val clearCookie = CookieUtils.clearRefreshTokenCookie()
+        return Response.noContent().cookie(clearCookie).build()
+    }
+
     @POST
     @Path("/refresh")
     @Produces(MediaType.APPLICATION_JSON)
