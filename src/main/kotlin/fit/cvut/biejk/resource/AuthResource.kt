@@ -2,6 +2,7 @@ package fit.cvut.biejk.resource
 
 import fit.cvut.biejk.dto.Credentials
 import fit.cvut.biejk.dto.TokenResponse
+import fit.cvut.biejk.exception.AuthException
 import fit.cvut.biejk.persistance.repository.UserRepository
 import fit.cvut.biejk.service.UserService
 import fit.cvut.biejk.util.JwtUtils
@@ -39,7 +40,11 @@ class AuthResource(
     @POST
     @Path("/refresh")
     @Produces(MediaType.APPLICATION_JSON)
-    fun refresh(@CookieParam("refresh_token") refreshToken: String): Response {
+    fun refresh(@CookieParam("refresh_token") refreshToken: String?): Response {
+        if (refreshToken.isNullOrBlank())
+            return Response.status(Response.Status.UNAUTHORIZED)
+                .entity(AuthException("Refresh token missing")).build()
+
         val jwt = JwtUtils.parseToken(refreshToken)
 
         val user = userRepository.findByUsername(jwt!!.subject)
