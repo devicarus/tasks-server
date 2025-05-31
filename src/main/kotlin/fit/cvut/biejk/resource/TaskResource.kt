@@ -30,7 +30,7 @@ class TaskResource(
         if (!sortBy.isNullOrEmpty() && !ALLOWED_SORT_FIELDS.contains(sortBy))
             throw IllegalArgumentException("Invalid sort field: $sortBy")
 
-        if (!sortDir.isNullOrEmpty() && !listOf("asc", "ASC", "desc", "DESC").contains(sortDir))
+        if (!sortDir.isNullOrEmpty() && !listOf("asc", "desc").contains(sortDir.lowercase()))
             throw IllegalArgumentException("Invalid sort direction: $sortDir")
 
         val filter = filterBy?.let { Filter.from(Task::class, it) }
