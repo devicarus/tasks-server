@@ -1,19 +1,21 @@
 package fit.cvut.biejk.service
 
+import fit.cvut.biejk.dto.UserDto
 import fit.cvut.biejk.exception.AuthException
+import fit.cvut.biejk.mapper.toDto
 import fit.cvut.biejk.persistance.entity.User
 import fit.cvut.biejk.persistance.repository.UserRepository
+import fit.cvut.biejk.providers.CurrentUserProvider
 import fit.cvut.biejk.util.HashUtils
 import fit.cvut.biejk.util.JwtUtils
-import io.quarkus.security.identity.SecurityIdentity
 
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
 @ApplicationScoped
 class UserService(
-    val securityIdentity: SecurityIdentity,
-    val userRepository: UserRepository
+    val userRepository: UserRepository,
+    private val currentUserProvider: CurrentUserProvider
 ) {
     companion object {
         private const val ACCESS_TOKEN_EXPIRY = 900L // 15 min
@@ -46,10 +48,9 @@ class UserService(
     }
 
     @Transactional
-    fun getUser(): User {
-        val username = securityIdentity.principal.name
-        return userRepository.findByUsername(username)
-            ?: throw AuthException("User with username $username not found")
+    fun getCurrentUser(): UserDto {
+        return currentUserProvider.getCurrentUser()?.toDto()
+            ?: throw AuthException("User with not found")
     }
 
     @Transactional

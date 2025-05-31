@@ -12,31 +12,33 @@ import fit.cvut.biejk.mapper.toEntity
 import fit.cvut.biejk.mapper.update
 import fit.cvut.biejk.persistance.repository.ProjectRepository
 import fit.cvut.biejk.persistance.entity.Project
+import fit.cvut.biejk.providers.CurrentUserProvider
 
 @ApplicationScoped
 class ProjectService(
     val userService: UserService,
     val projectRepository: ProjectRepository,
+    private val currentUserProvider: CurrentUserProvider,
 ) {
 
     @Transactional
     fun createProject(projectDto: ProjectBriefDto): ProjectBriefDto {
         val project = projectDto.toEntity()
-        project.user = userService.getUser()
+        project.user = currentUserProvider.getCurrentUser()!!
         projectRepository.persist(project)
         return project.toBriefDto()
     }
 
     @Transactional
     fun getProjects(): List<ProjectBriefDto> {
-        return projectRepository.find("user", userService.getUser())
+        return projectRepository.find("user", currentUserProvider.getCurrentUser())
             .list<Project>().map { it.toBriefDto() }
     }
 
     @Transactional
     fun getProject(id: Long): ProjectDto {
         val project = projectRepository.findById(id)
-        if (project == null || project.user != userService.getUser())
+        if (project == null || project.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Project not found")
         return project.toDto()
     }
@@ -44,7 +46,7 @@ class ProjectService(
     @Transactional
     fun updateProject(id: Long, projectDto: ProjectBriefDto) {
         val project = projectRepository.findById(id);
-        if (project == null || project.user != userService.getUser())
+        if (project == null || project.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Project not found")
         project.update(projectDto)
         projectRepository.persist(project)
@@ -53,7 +55,7 @@ class ProjectService(
     @Transactional
     fun patchProject(id: Long, projectDto: ProjectBriefDto) {
         val project = projectRepository.findById(id);
-        if (project == null || project.user != userService.getUser())
+        if (project == null || project.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Project not found")
         project.patchWith(projectDto)
         projectRepository.persist(project)
@@ -62,7 +64,7 @@ class ProjectService(
     @Transactional
     fun deleteProject(id: Long) {
         val project = projectRepository.findById(id)
-        if (project == null || project.user != userService.getUser())
+        if (project == null || project.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Project not found")
         projectRepository.delete(project)
     }

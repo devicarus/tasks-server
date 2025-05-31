@@ -8,6 +8,7 @@ import fit.cvut.biejk.persistance.entity.Task
 import fit.cvut.biejk.persistance.repository.TaskRepository
 import fit.cvut.biejk.filtering.Filter
 import fit.cvut.biejk.persistance.repository.ProjectRepository
+import fit.cvut.biejk.providers.CurrentUserProvider
 import io.quarkus.panache.common.Sort
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
@@ -16,7 +17,8 @@ import jakarta.transaction.Transactional
 class TaskService (
     val taskRepository: TaskRepository,
     val projectRepository: ProjectRepository,
-    val userService: UserService
+    val userService: UserService,
+    private val currentUserProvider: CurrentUserProvider
 ) {
 
     @Transactional
@@ -24,7 +26,7 @@ class TaskService (
         return taskRepository.list(
             "user = :user" + (if (filter != null) " AND $filter" else ""), sort,
             mapOf(
-                "user" to userService.getUser(),
+                "user" to currentUserProvider.getCurrentUser(),
             ) + (filter?.parameters ?: emptyMap())
         )
     }
@@ -32,7 +34,7 @@ class TaskService (
     @Transactional
     fun createTask(taskDto: TaskDto): TaskDto {
         val task = taskDto.toEntity()
-        task.user = userService.getUser()
+        task.user = currentUserProvider.getCurrentUser()!!
         taskRepository.persist(task)
         return task.toDto()
     }
@@ -40,7 +42,7 @@ class TaskService (
     @Transactional
     fun createProjectTask(projectId: Long, taskDto: TaskDto): TaskDto {
         val project = projectRepository.findById(projectId)
-        val user = userService.getUser()
+        val user = currentUserProvider.getCurrentUser()!!
 
         if (project == null || project.user != user)
             throw IllegalArgumentException("Project not found")
@@ -55,7 +57,7 @@ class TaskService (
     @Transactional
     fun updateTask(id: Long, taskDto: TaskDto) {
         val task = taskRepository.findById(id);
-        if (task == null || task.user != userService.getUser())
+        if (task == null || task.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Task not found");
         task.update(taskDto);
         taskRepository.persist(task);
@@ -64,7 +66,7 @@ class TaskService (
     @Transactional
     fun deleteTask(id: Long) {
         val task = taskRepository.findById(id);
-        if (task == null || task.user != userService.getUser())
+        if (task == null || task.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Task not found");
         taskRepository.delete(task);
     }
