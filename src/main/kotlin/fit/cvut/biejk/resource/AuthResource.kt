@@ -9,7 +9,6 @@ import fit.cvut.biejk.util.CookieUtils
 import fit.cvut.biejk.util.JwtUtils
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
-import jakarta.ws.rs.core.NewCookie
 import jakarta.ws.rs.core.Response
 
 @Path("/auth")
