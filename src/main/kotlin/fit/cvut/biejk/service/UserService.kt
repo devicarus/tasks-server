@@ -46,10 +46,9 @@ class UserService(
     }
 
     @Transactional
-    fun getCurrentUser(): UserDto {
-        return currentUserProvider.getCurrentUser()?.toDto()
+    fun getCurrentUser(): UserDto =
+        currentUserProvider.getCurrentUser()?.toDto()
             ?: throw AuthException("User with not found")
-    }
 
     @Transactional
     fun getToken(user: User): Pair<String, String> {
