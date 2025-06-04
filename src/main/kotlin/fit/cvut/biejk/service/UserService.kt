@@ -1,6 +1,7 @@
 package fit.cvut.biejk.service
 
 import fit.cvut.biejk.dto.UserDto
+import fit.cvut.biejk.config.JwtConfig
 import fit.cvut.biejk.exception.AuthException
 import fit.cvut.biejk.mapper.toDto
 import fit.cvut.biejk.persistance.entity.User
@@ -15,12 +16,9 @@ import jakarta.transaction.Transactional
 @ApplicationScoped
 class UserService(
     val userRepository: UserRepository,
-    private val currentUserProvider: CurrentUserProvider
+    private val currentUserProvider: CurrentUserProvider,
+    private val jwtConfig: JwtConfig
 ) {
-    companion object {
-        private const val ACCESS_TOKEN_EXPIRY = 900L // 15 min
-        private const val REFRESH_TOKEN_EXPIRY = 7 * 24 * 3600L // 7 days
-    }
 
     @Transactional
     fun createUser(username: String, password: String) {
@@ -55,15 +53,13 @@ class UserService(
 
     @Transactional
     fun getToken(user: User): Pair<String, String> {
-        val refreshToken = JwtUtils.generateToken(user.username, emptyList(), REFRESH_TOKEN_EXPIRY)
-        val accessToken = JwtUtils.generateToken(user.username, listOf("User"), ACCESS_TOKEN_EXPIRY)
+        val refreshToken = JwtUtils.generateToken(user.username, emptyList(), jwtConfig.refreshTokenExpiry())
+        val accessToken = JwtUtils.generateToken(user.username, listOf("User"), jwtConfig.accessTokenExpiry())
         return Pair(refreshToken, accessToken)
     }
 
     @Transactional
-    fun refreshToken(user: User): String {
-        val accessToken = JwtUtils.generateToken(user.username, listOf("User"), ACCESS_TOKEN_EXPIRY)
-        return accessToken
-    }
+    fun refreshToken(user: User): String =
+        JwtUtils.generateToken(user.username, listOf("User"), jwtConfig.accessTokenExpiry())
 
 }

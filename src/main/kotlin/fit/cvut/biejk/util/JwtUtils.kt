@@ -2,7 +2,6 @@ package fit.cvut.biejk.util
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import io.smallrye.jwt.build.Jwt
 import java.io.InputStream
 import java.security.KeyFactory
 import java.security.PrivateKey
@@ -17,24 +16,12 @@ object JwtUtils {
     private val publicKey: PublicKey = loadPublicKey("META-INF/resources/publicKey.pem")
     private val privateKey: PrivateKey = loadPrivateKey("META-INF/resources/privateKey.pem")
 
-    fun generateTokenOld(username: String, roles: List<String> = emptyList(), expiresIn: Long): String {
-        val jwtBuilder = Jwt.issuer("your-issuer")
-            .subject(username)
-            .expiresIn(expiresIn)
-
-        if (roles.isNotEmpty()) {
-            jwtBuilder.groups(HashSet(roles))
-        }
-
-        return jwtBuilder.sign()
-    }
-
-    fun generateToken(username: String, roles: List<String> = emptyList(), expiresIn: Long): String {
+    fun generateToken(username: String, roles: List<String> = emptyList(), expiresIn: Int): String {
         val jwtBuilder = Jwts.builder()
-            .issuer("your-issuer")
+            .issuer("TasksServer")
             .subject(username)
             .issuedAt(Date.from(Instant.now()))
-            .expiration(Date.from(Instant.now().plusSeconds(expiresIn)))
+            .expiration(Date.from(Instant.now().plusSeconds(expiresIn.toLong())))
 
         jwtBuilder.header().add("typ", "JWT")
 

@@ -2,6 +2,7 @@ package fit.cvut.biejk.resource
 
 import fit.cvut.biejk.dto.Credentials
 import fit.cvut.biejk.dto.TokenResponse
+import fit.cvut.biejk.config.JwtConfig
 import fit.cvut.biejk.exception.AuthException
 import fit.cvut.biejk.persistance.repository.UserRepository
 import fit.cvut.biejk.service.UserService
@@ -13,6 +14,7 @@ import jakarta.ws.rs.core.Response
 
 @Path("/auth")
 class AuthResource(
+    private val jwtConfig: JwtConfig,
     private val userService: UserService,
     private val userRepository: UserRepository
 ) {
@@ -25,7 +27,7 @@ class AuthResource(
         val user = userService.verifyUser(credentials.username, credentials.password)
         val tokens = userService.getToken(user)
 
-        val refreshCookie = CookieUtils.createRefreshTokenCookie(tokens.first, 7 * 24 * 3600)
+        val refreshCookie = CookieUtils.createRefreshTokenCookie(tokens.first, jwtConfig.refreshTokenExpiry())
 
         return Response.ok(TokenResponse(tokens.second)).cookie(refreshCookie).build()
     }
