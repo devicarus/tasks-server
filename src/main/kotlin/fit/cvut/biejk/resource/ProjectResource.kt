@@ -1,7 +1,7 @@
 package fit.cvut.biejk.resource
 
-import fit.cvut.biejk.dto.ProjectBriefDto
-import fit.cvut.biejk.dto.TaskDto
+import fit.cvut.biejk.domain.dto.ProjectBriefDto
+import fit.cvut.biejk.domain.dto.TaskDto
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response

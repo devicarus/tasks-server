@@ -1,10 +1,10 @@
 package fit.cvut.biejk.resource
 
-import fit.cvut.biejk.dto.Credentials
-import fit.cvut.biejk.dto.TokenResponse
 import fit.cvut.biejk.config.JwtConfig
+import fit.cvut.biejk.domain.dto.Credentials
+import fit.cvut.biejk.domain.dto.TokenResponse
 import fit.cvut.biejk.exception.AuthException
-import fit.cvut.biejk.persistance.repository.UserRepository
+import fit.cvut.biejk.domain.repository.UserRepository
 import fit.cvut.biejk.service.UserService
 import fit.cvut.biejk.util.CookieUtils
 import fit.cvut.biejk.util.JwtUtils

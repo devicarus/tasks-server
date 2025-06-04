@@ -1,6 +1,6 @@
 package fit.cvut.biejk.exception.mapper
 
-import fit.cvut.biejk.dto.ErrorResponse
+import fit.cvut.biejk.domain.dto.ErrorResponse
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.ext.ExceptionMapper
 import jakarta.ws.rs.ext.Provider

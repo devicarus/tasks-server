@@ -1,8 +1,8 @@
 package fit.cvut.biejk.resource
 
-import fit.cvut.biejk.dto.TaskDto
-import fit.cvut.biejk.mapper.toDto
-import fit.cvut.biejk.persistance.entity.Task
+import fit.cvut.biejk.domain.dto.TaskDto
+import fit.cvut.biejk.domain.mapper.toDto
+import fit.cvut.biejk.domain.entity.Task
 import fit.cvut.biejk.service.TaskService
 import fit.cvut.biejk.filtering.Filter
 import io.quarkus.panache.common.Sort

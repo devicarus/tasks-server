@@ -1,6 +1,6 @@
-package fit.cvut.biejk.persistance.repository
+package fit.cvut.biejk.domain.repository
 
-import fit.cvut.biejk.persistance.entity.Task
+import fit.cvut.biejk.domain.entity.Task
 import io.quarkus.hibernate.orm.panache.PanacheRepository
 import jakarta.enterprise.context.ApplicationScoped
 

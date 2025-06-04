@@ -1,13 +1,13 @@
 package fit.cvut.biejk.service
 
-import fit.cvut.biejk.dto.TaskDto
-import fit.cvut.biejk.mapper.toDto
-import fit.cvut.biejk.mapper.toEntity
-import fit.cvut.biejk.mapper.update
-import fit.cvut.biejk.persistance.entity.Task
-import fit.cvut.biejk.persistance.repository.TaskRepository
+import fit.cvut.biejk.domain.dto.TaskDto
+import fit.cvut.biejk.domain.mapper.toDto
+import fit.cvut.biejk.domain.mapper.toEntity
+import fit.cvut.biejk.domain.mapper.update
+import fit.cvut.biejk.domain.entity.Task
+import fit.cvut.biejk.domain.repository.TaskRepository
 import fit.cvut.biejk.filtering.Filter
-import fit.cvut.biejk.persistance.repository.ProjectRepository
+import fit.cvut.biejk.domain.repository.ProjectRepository
 import fit.cvut.biejk.providers.CurrentUserProvider
 import io.quarkus.panache.common.Sort
 import jakarta.enterprise.context.ApplicationScoped

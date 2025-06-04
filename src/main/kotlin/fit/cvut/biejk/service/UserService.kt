@@ -1,11 +1,11 @@
 package fit.cvut.biejk.service
 
-import fit.cvut.biejk.dto.UserDto
 import fit.cvut.biejk.config.JwtConfig
+import fit.cvut.biejk.domain.dto.UserDto
 import fit.cvut.biejk.exception.AuthException
-import fit.cvut.biejk.mapper.toDto
-import fit.cvut.biejk.persistance.entity.User
-import fit.cvut.biejk.persistance.repository.UserRepository
+import fit.cvut.biejk.domain.mapper.toDto
+import fit.cvut.biejk.domain.entity.User
+import fit.cvut.biejk.domain.repository.UserRepository
 import fit.cvut.biejk.providers.CurrentUserProvider
 import fit.cvut.biejk.util.HashUtils
 import fit.cvut.biejk.util.JwtUtils

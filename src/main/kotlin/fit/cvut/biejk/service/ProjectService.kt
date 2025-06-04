@@ -3,15 +3,15 @@ package fit.cvut.biejk.service
 import jakarta.transaction.Transactional
 import jakarta.enterprise.context.ApplicationScoped
 
-import fit.cvut.biejk.dto.ProjectBriefDto
-import fit.cvut.biejk.dto.ProjectDto
-import fit.cvut.biejk.mapper.patchWith
-import fit.cvut.biejk.mapper.toBriefDto
-import fit.cvut.biejk.mapper.toDto
-import fit.cvut.biejk.mapper.toEntity
-import fit.cvut.biejk.mapper.update
-import fit.cvut.biejk.persistance.repository.ProjectRepository
-import fit.cvut.biejk.persistance.entity.Project
+import fit.cvut.biejk.domain.dto.ProjectBriefDto
+import fit.cvut.biejk.domain.dto.ProjectDto
+import fit.cvut.biejk.domain.mapper.patchWith
+import fit.cvut.biejk.domain.mapper.toBriefDto
+import fit.cvut.biejk.domain.mapper.toDto
+import fit.cvut.biejk.domain.mapper.toEntity
+import fit.cvut.biejk.domain.mapper.update
+import fit.cvut.biejk.domain.repository.ProjectRepository
+import fit.cvut.biejk.domain.entity.Project
 import fit.cvut.biejk.providers.CurrentUserProvider
 
 @ApplicationScoped

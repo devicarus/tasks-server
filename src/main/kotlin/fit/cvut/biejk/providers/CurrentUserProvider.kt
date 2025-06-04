@@ -1,7 +1,7 @@
 package fit.cvut.biejk.providers
 
-import fit.cvut.biejk.persistance.entity.User
-import fit.cvut.biejk.persistance.repository.UserRepository
+import fit.cvut.biejk.domain.entity.User
+import fit.cvut.biejk.domain.repository.UserRepository
 import io.quarkus.security.identity.SecurityIdentity
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional

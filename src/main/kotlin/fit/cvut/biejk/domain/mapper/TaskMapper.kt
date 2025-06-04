@@ -1,7 +1,7 @@
-package fit.cvut.biejk.mapper
+package fit.cvut.biejk.domain.mapper
 
-import fit.cvut.biejk.dto.TaskDto
-import fit.cvut.biejk.persistance.entity.Task
+import fit.cvut.biejk.domain.dto.TaskDto
+import fit.cvut.biejk.domain.entity.Task
 
 fun Task.toDto(): TaskDto = TaskDto(
     id = this.id,

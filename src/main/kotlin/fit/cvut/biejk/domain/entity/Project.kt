@@ -1,4 +1,4 @@
-package fit.cvut.biejk.persistance.entity
+package fit.cvut.biejk.domain.entity
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity
 import jakarta.persistence.*

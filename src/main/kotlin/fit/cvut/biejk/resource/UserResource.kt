@@ -1,6 +1,6 @@
 package fit.cvut.biejk.resource
 
-import fit.cvut.biejk.dto.UserDto
+import fit.cvut.biejk.domain.dto.UserDto
 import fit.cvut.biejk.service.UserService
 import jakarta.annotation.security.RolesAllowed
 import jakarta.ws.rs.GET

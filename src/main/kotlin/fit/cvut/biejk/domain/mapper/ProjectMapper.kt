@@ -1,8 +1,8 @@
-package fit.cvut.biejk.mapper
+package fit.cvut.biejk.domain.mapper
 
-import fit.cvut.biejk.dto.ProjectBriefDto
-import fit.cvut.biejk.dto.ProjectDto
-import fit.cvut.biejk.persistance.entity.Project
+import fit.cvut.biejk.domain.dto.ProjectBriefDto
+import fit.cvut.biejk.domain.dto.ProjectDto
+import fit.cvut.biejk.domain.entity.Project
 
 fun Project.toDto(): ProjectDto = ProjectDto(
     id = this.id,
