@@ -16,7 +16,6 @@ import fit.cvut.biejk.providers.CurrentUserProvider
 
 @ApplicationScoped
 class ProjectService(
-    val userService: UserService,
     val projectRepository: ProjectRepository,
     private val currentUserProvider: CurrentUserProvider,
 ) {
@@ -45,7 +44,7 @@ class ProjectService(
 
     @Transactional
     fun updateProject(id: Long, projectDto: ProjectBriefDto) {
-        val project = projectRepository.findById(id);
+        val project = projectRepository.findById(id)
         if (project == null || project.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Project not found")
         project.update(projectDto)
@@ -54,7 +53,7 @@ class ProjectService(
 
     @Transactional
     fun patchProject(id: Long, projectDto: ProjectBriefDto) {
-        val project = projectRepository.findById(id);
+        val project = projectRepository.findById(id)
         if (project == null || project.user != currentUserProvider.getCurrentUser())
             throw IllegalArgumentException("Project not found")
         project.patchWith(projectDto)
