@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
 @Path("/tasks")
+@RolesAllowed("User")
 class TaskResource(
     val taskService: TaskService,
 ) {
@@ -21,7 +22,6 @@ class TaskResource(
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("User")
     fun getCurrentUserTasks(
         @QueryParam(value="sortBy") sortBy: String?,
         @QueryParam(value="sortDir") sortDir: String?,
@@ -49,7 +49,6 @@ class TaskResource(
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("User")
     fun createTask(taskDto: TaskDto): Response {
         val newTaskDto = taskService.createTask(taskDto)
         return Response.status(Response.Status.CREATED).entity(newTaskDto).build()
@@ -57,7 +56,6 @@ class TaskResource(
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("User")
     @Path("/{id}")
     fun updateTask(@PathParam("id") id: Long, taskDto: TaskDto): Response {
         taskService.updateTask(id, taskDto)
@@ -65,7 +63,6 @@ class TaskResource(
     }
 
     @DELETE
-    @RolesAllowed("User")
     @Path("/{id}")
     fun deleteTask(@PathParam("id") id: Long): Response {
         taskService.deleteTask(id)
