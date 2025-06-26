@@ -9,4 +9,5 @@ data class TaskDto(
     val note: String?,
     val dueDate: LocalDate?,
     val deadlineDate: LocalDate?,
+    val project: ProjectBriefDto?,
 )

@@ -10,6 +10,7 @@ fun Task.toDto(): TaskDto = TaskDto(
     note = this.note,
     dueDate = this.dueDate,
     deadlineDate = this.deadlineDate,
+    project = this.project?.toBriefDto(),
 )
 
 fun Task.update(dto: TaskDto) {
