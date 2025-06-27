@@ -1,10 +1,29 @@
-# tasks
+<img src="https://capsule-render.vercel.app/api?type=waving&height=300&color=006FEE&text=Tasks%20Server&reversal=false&section=header&fontColor=ECEDEE&fontAlignY=42&descAlignY=50" />
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+**Tasks Server** is the backend for the [**Tasks**](https://github.com/devicarus/tasks?tab=readme-ov-file) self-hosted task manager.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Technologies Used
+- [Quarkus](https://quarkus.io/)
+- [Gradle](https://gradle.org/)
+- [Kotlin](https://kotlinlang.org/)
+- [Hibernate ORM](https://hibernate.org/orm/)
+- [argon2-jvm](https://github.com/phxql/argon2-jvm)
+- [jjwt](https://github.com/jwtk/jjwt)
+- [Smallrye JWT](https://github.com/smallrye/smallrye-jwt)
 
-## Running the application in dev mode
+## How to Use
+
+> ⚠️ **WARNING**: This project is currently in development and not yet ready for production use.
+
+> 💡 **TIP**: *Docker image* and *Helm Chart* comming in the near future, stay tuned!
+
+To clone the project, run the following command:
+
+```bash
+git clone https://github.com/devicarus/tasks-server.git
+```
+
+### Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 
@@ -14,7 +33,7 @@ You can run your application in dev mode that enables live coding using:
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
-## Packaging and running the application
+### Packaging and running the application
 
 The application can be packaged using:
 
@@ -35,7 +54,7 @@ If you want to build an _über-jar_, execute the following command:
 
 The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
 
-## Creating a native executable
+### Creating a native executable
 
 You can create a native executable using:
 
@@ -52,31 +71,3 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./build/tasks-1.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
-
-## Related Guides
-
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes
-  with Swagger UI
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus
-  REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Kotlin ([guide](https://quarkus.io/guides/kotlin)): Write your services in Kotlin
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code
-  for Hibernate ORM via the active record or the repository pattern
-- SmallRye JWT ([guide](https://quarkus.io/guides/security-jwt)): Secure your applications with JSON Web Token
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
